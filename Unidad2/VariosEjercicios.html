@@ -90,6 +90,22 @@
       // Dibujar un rectángulo con el gradiente
       ctx.fillStyle = gradient;
       ctx.fillRect(450, 400, 120, 80);
+
+      // Crear un gradiente radial
+      const radialGradient = ctx.createRadialGradient(
+        320,
+        440,
+        10,
+        320,
+        440,
+        50
+      );
+      radialGradient.addColorStop(0, "yellow");
+      radialGradient.addColorStop(1, "orange");
+
+      // Dibujar un rectángulo con el gradiente radial
+      ctx.fillStyle = radialGradient;
+      ctx.fillRect(280, 400, 120, 80);
     </script>
   </body>
 </html>
