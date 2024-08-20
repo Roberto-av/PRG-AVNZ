@@ -50,6 +50,25 @@
       ctx.stroke();
       ctx.fill();
 
+      // Círculo solo contorno
+      ctx.beginPath();
+      ctx.arc(100, 400, 40, 0, Math.PI * 2); // Coordenadas (100, 400), radio 40
+      ctx.strokeStyle = "green";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Pedazo de círculo dentro del círculo sin relleno
+      ctx.beginPath();
+      ctx.arc(100, 400, 20, 0, Math.PI, false); // Coordenadas (100, 400), radio 20, medio círculo
+      ctx.strokeStyle = "green";
+      ctx.lineWidth = 3;
+      ctx.fill();
+
+      // Círculo relleno
+      ctx.beginPath();
+      ctx.arc(180, 400, 40, 0, Math.PI * 2); // Coordenadas (180, 400), radio 40
+      ctx.fillStyle = "blue";
+      ctx.fill();
     </script>
   </body>
 </html>
