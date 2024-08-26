@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estela del Cursor con Formas Aleatorias al Presionar el Mouse</title>
+    <style>
+      body {
+        overflow: hidden;
+        background-color: black;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      canvas {
+        display: block;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Establecer tamaño fijo del canvas
+      canvas.width = 800;
+      canvas.height = 600;
+
+      // Configuración de colores con transparencia
+      const colors = {
+        trailPoint: "rgba(0, 0, 0, 0.5)",
+        square: "rgba(0, 128, 0, 0.5)",
+        largeCircle: "rgba(255, 99, 71, 0.5)",
+      };
+
+      // Configuración del espaciado
+      const spacing = 15;
+
+      // Última posición del mouse para controlar el espaciado
+      let lastX = -spacing;
+      let lastY = -spacing;
+
+      // Evento para mover el mouse
+      canvas.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Dibuja la estela con puntos negros
+        if (Math.abs(x - lastX) > spacing || Math.abs(y - lastY) > spacing) {
+          drawTrail(x, y);
+          lastX = x;
+          lastY = y;
+        }
+      });
+
+      // Evento para presionar el mouse
+      canvas.addEventListener("mousedown", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Dibuja una forma aleatoria en la posición del clic
+        drawRandomShape(x, y);
+      });
+
+      // Función para dibujar la estela con puntos negros
+      function drawTrail(x, y) {
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2, false);
+        ctx.fillStyle = colors.trailPoint;
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      // Función para dibujar una forma aleatoria (círculo o cuadrado)
+      function drawRandomShape(x, y) {
+        const minSize = 70;
+        const maxSize = 70;
+        const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize;
+        const shapeType = Math.random() < 0.5 ? "circle" : "square";
+
+        ctx.beginPath();
+        if (shapeType === "circle") {
+          ctx.arc(x, y, size, 0, Math.PI * 2, false);
+          ctx.fillStyle = size > 40 ? colors.largeCircle : colors.trailPoint;
+        } else if (shapeType === "square") {
+          ctx.fillStyle = colors.square;
+          ctx.fillRect(x - size / 2, y - size / 2, size, size);
+        }
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      // Ajustar tamaño del canvas si el tamaño de la ventana cambia
+      window.addEventListener("resize", () => {
+        canvas.width = 800;
+        canvas.height = 600;
+      });
+    </script>
+  </body>
+</html>
