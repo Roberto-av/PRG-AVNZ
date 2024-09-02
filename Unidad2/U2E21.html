@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avatar</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="600" height="500"></canvas>
+    
+    <script type="text/javascript">
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // Cuerpo de la gallina
+      ctx.fillStyle = "#fff4b5";
+      ctx.beginPath();
+      ctx.ellipse(300, 330, 90, 70, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sombra
+      ctx.fillStyle = "#e2cfa2";
+      ctx.beginPath();
+      ctx.ellipse(320, 350, 60, 50, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cabeza
+      ctx.fillStyle = "#fff4b5";
+      ctx.beginPath();
+      ctx.arc(230, 260, 35, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cresta
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      ctx.arc(215, 220, 10, 0, Math.PI * 2);
+      ctx.arc(230, 210, 10, 0, Math.PI * 2);
+      ctx.arc(245, 220, 10, 0, Math.PI * 2);
+      ctx.fill();
+
+      // alas
+      ctx.fillStyle = "#e2d3a2";
+      ctx.beginPath();
+      ctx.ellipse(300, 330, 50, 40, Math.PI / 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // detalle alas
+      ctx.strokeStyle = "#d2b48c";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(290, 300);
+      ctx.lineTo(340, 330);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(280, 320);
+      ctx.lineTo(330, 350);
+      ctx.stroke();
+
+      // Pico
+      ctx.fillStyle = "#ffa500";
+      ctx.beginPath();
+      ctx.moveTo(200, 270);
+      ctx.lineTo(190, 290);
+      ctx.lineTo(220, 285);
+      ctx.closePath();
+      ctx.fill();
+
+      // Ojo
+      ctx.fillStyle = "black";
+      ctx.beginPath();
+      ctx.arc(240, 250, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sonrojado
+      ctx.fillStyle = "#ff6961";
+      ctx.beginPath();
+      ctx.arc(220, 270, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(260, 270, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Patas
+      ctx.strokeStyle = "#d4a373";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(270, 390);
+      ctx.lineTo(270, 430);
+      ctx.moveTo(330, 390);
+      ctx.lineTo(330, 430);
+      ctx.stroke();
+
+      // Dedos
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(270, 430);
+      ctx.lineTo(260, 440);
+      ctx.moveTo(270, 430);
+      ctx.lineTo(280, 440);
+      ctx.moveTo(330, 430);
+      ctx.lineTo(320, 440);
+      ctx.moveTo(330, 430);
+      ctx.lineTo(340, 440);
+      ctx.stroke();
+
+      // Sombra 3d
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.beginPath();
+      ctx.ellipse(300, 450, 80, 20, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // texto
+      ctx.fillStyle = "black";
+      ctx.font = "30px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("El Mazapán", canvas.width / 2, 150);
+    </script>
+  </body>
+</html>
