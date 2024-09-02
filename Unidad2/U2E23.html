@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recreación Detallada</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: black;
+      }
+      canvas {
+        background-color: lightblue;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      function nube(x, y) {
+        ctx.fillStyle = "#FFFFFF";
+        for (let i = 0; i < 5; i++) {
+          ctx.beginPath();
+          ctx.arc(x, y, 30, 0, Math.PI * 2);
+          ctx.arc(x + 30, y + 10, 40, 0, Math.PI * 2);
+          ctx.arc(x - 30, y + 10, 40, 0, Math.PI * 2);
+          ctx.arc(x + 60, y + 5, 30, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function arbusto(x, y) {
+        ctx.fillStyle = "#00913f";
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.arc(x, y, 40, 0, Math.PI * 2);
+        ctx.arc(x + 50, y, 40, 0, Math.PI * 2);
+        ctx.arc(x - 50, y, 40, 0, Math.PI * 2);
+        ctx.arc(x + 25, y - 30, 30, 0, Math.PI * 2);
+        ctx.arc(x - 25, y - 30, 30, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function dibujarPiso() {
+        const losaTam = 50;
+        const losaColor = "#A0522D";
+        const losaLineasColor = "#8B4513";
+
+        for (let y = 400; y < canvas.height; y += losaTam) {
+          for (let x = 0; x < canvas.width; x += losaTam) {
+            // fondo
+            ctx.fillStyle = losaColor;
+            ctx.fillRect(x, y, losaTam, losaTam);
+
+            // sombras leves
+            ctx.strokeStyle = losaLineasColor;
+            ctx.lineWidth = 4;
+            ctx.strokeRect(x, y, losaTam, losaTam);
+
+            // varias sombras
+            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+            ctx.fillRect(x + losaTam - 5, y + 5, 5, losaTam - 5);
+            ctx.fillRect(x + 5, y + losaTam - 5, losaTam - 5, 5);
+          }
+        }
+      }
+
+      function dibujarBloque(x, y, width, height, color, shadowColor) {
+        // Sombra
+        ctx.fillStyle = shadowColor;
+        ctx.fillRect(x + 5, y + 5, width, height);
+
+        // Bloque principal
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, width, height);
+
+        // Borde negro
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+
+        // tornillos
+        ctx.fillStyle = "black";
+        ctx.fillRect(x + 5, y + 5, 5, 5);
+        ctx.fillRect(x + width - 10, y + 5, 5, 5);
+        ctx.fillRect(x + 5, y + height - 10, 5, 5);
+        ctx.fillRect(x + width - 10, y + height - 10, 5, 5);
+      }
+
+      function dibujarTuberia(x, y, width, height, color) {
+        // Cuerpo de la tubería
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, width, height);
+
+        // Parte superior de la tubería
+        ctx.fillRect(x - 10, y - 20, width + 20, 20);
+
+        // Borde negro
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+        ctx.strokeRect(x - 10, y - 20, width + 20, 20);
+
+        // Sombra
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+        ctx.fillRect(x + width / 2, y, width / 2, height);
+      }
+
+      function dibujarBloques() {
+        // Bloques pequeños
+        dibujarBloque(250, 50, 50, 50, "#FF8C00", "#CD5C00");
+        dibujarBloque(300, 50, 50, 50, "#FF8C00", "#CD5C00");
+        dibujarBloque(100, 150, 50, 50, "#FF8C00", "#CD5C00");
+        dibujarBloque(650, 150, 50, 50, "#FF8C00", "#CD5C00");
+
+        // Bloques grandes
+        dibujarBloque(200, 250, 100, 150, "#87CEFA", "#332f2c");
+        dibujarBloque(100, 300, 100, 100, "#FFB6C1", "#332f2c");
+        dibujarBloque(600, 350, 100, 50, "green", "#332f2c");
+      }
+
+      function dibujarEscena() {
+        arbusto(400, 370);
+        arbusto(10, 400);
+        dibujarPiso();
+        nube(100, 70);
+        nube(500, 100);
+        nube(700, 250);
+        dibujarBloques();
+        dibujarTuberia(500, 300, 100, 100, "green");
+      }
+
+      dibujarEscena();
+    </script>
+  </body>
+</html>
