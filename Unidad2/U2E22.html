@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paisaje Detallado en Canvas</title>
+    <style>
+      body {
+        background-color: black;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      canvas {
+        background-color: lightblue;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="800" height="500"></canvas>
+
+    <script type="text/javascript">
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+
+      function cielo() {
+        const skyGradient = ctx.createLinearGradient(0, 0, 0, 300);
+        skyGradient.addColorStop(0, "#FFB6C1");
+        skyGradient.addColorStop(1, "#87CEEB");
+        ctx.fillStyle = skyGradient;
+        ctx.fillRect(0, 0, canvas.width, 300);
+
+        // Nubes
+        ctx.fillStyle = "#FFFFFF";
+        for (let i = 0; i < 5; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * 150;
+          ctx.beginPath();
+          ctx.arc(x, y, 30, 0, Math.PI * 2);
+          ctx.arc(x + 30, y + 10, 40, 0, Math.PI * 2);
+          ctx.arc(x - 30, y + 10, 40, 0, Math.PI * 2);
+          ctx.arc(x + 60, y + 5, 30, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function Pasto() {
+        ctx.fillStyle = "#32CD32";
+        ctx.fillRect(0, 300, canvas.width, 200);
+
+        ctx.strokeStyle = "#228B22";
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < canvas.width; i += 10) {
+          for (let j = 300; j < canvas.height; j += 15) {
+            ctx.beginPath();
+            ctx.moveTo(i, j);
+            ctx.lineTo(i + Math.random() * 5, j - Math.random() * 5);
+            ctx.stroke();
+          }
+        }
+      }
+
+      function arbol(x, y) {
+        ctx.fillStyle = "#8B4513";
+        ctx.fillRect(x - 5, y, 10, 40);
+
+        // Dibujar hojas con varios círculos
+        ctx.fillStyle = "#2E8B57";
+        ctx.beginPath();
+        ctx.arc(x, y, 20, 0, Math.PI * 2);
+        ctx.arc(x - 15, y + 10, 15, 0, Math.PI * 2);
+        ctx.arc(x + 15, y + 10, 15, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function casa(x, y) {
+        // Base de la casa
+        ctx.fillStyle = "#B22222";
+        ctx.fillRect(x, y, 120, 100);
+
+        // Detalle de la casa
+        ctx.strokeStyle = "#A52A2A";
+        ctx.lineWidth = 1;
+        for (let i = y; i <= y + 100; i += 10) {
+          ctx.beginPath();
+          ctx.moveTo(x, i);
+          ctx.lineTo(x + 120, i);
+          ctx.stroke();
+        }
+
+        // Techo
+        ctx.fillStyle = "#8B0000";
+        ctx.beginPath();
+        ctx.moveTo(x - 10, y);
+        ctx.lineTo(x + 60, y - 50);
+        ctx.lineTo(x + 130, y);
+        ctx.closePath();
+        ctx.fill();
+
+        // Chimenea
+        ctx.fillStyle = "#8B0000";
+        ctx.fillRect(x + 80, y - 30, 10, 30);
+
+        // Detalle ventana
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(x + 20, y + 20, 20, 20);
+        ctx.fillRect(x + 80, y + 20, 20, 20);
+
+        ctx.strokeStyle = "#000000";
+        ctx.beginPath();
+        ctx.moveTo(x + 30, y + 20);
+        ctx.lineTo(x + 30, y + 40);
+        ctx.moveTo(x + 20, y + 30);
+        ctx.lineTo(x + 40, y + 30);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x + 90, y + 20);
+        ctx.lineTo(x + 90, y + 40);
+        ctx.moveTo(x + 80, y + 30);
+        ctx.lineTo(x + 100, y + 30);
+        ctx.stroke();
+
+        // Puerta
+        ctx.fillStyle = "#654321";
+        ctx.fillRect(x + 50, y + 50, 20, 50);
+        ctx.strokeStyle = "#000000";
+        ctx.strokeRect(x + 50, y + 50, 20, 50);
+
+        // Camino
+        ctx.fillStyle = "#D3D3D3";
+        ctx.beginPath();
+        ctx.moveTo(x + 60, y + 100);
+        ctx.lineTo(x + 40, y + 150);
+        ctx.lineTo(x + 80, y + 150);
+        ctx.closePath();
+        ctx.fill();
+
+        // Ventilación en el techo
+        ctx.fillStyle = "#8B0000";
+        ctx.beginPath();
+        ctx.arc(x + 60, y - 40, 10, 0, Math.PI, true);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      function dibujar() {
+        cielo();
+        Pasto();
+        arbol(150, 300);
+        arbol(700, 300);
+        casa(350, 300);
+      }
+
+      dibujar();
+    </script>
+  </body>
+</html>
