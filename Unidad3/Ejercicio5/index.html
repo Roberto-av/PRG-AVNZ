@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1> Hola {{ nombre }}</h1>
+        <input type="text" v-model="nombre" placeholder="Ingresa tu nombre">
+        <p>.</p>
+        
+        <button @click="contarClicks">Has hecho {{ contador }} clicks</button>
+        
+        <div class="suma">
+            <input type="number" v-model.number="numero1" placeholder="Número 1">
+            <input type="number" v-model.number="numero2" placeholder="Número 2">
+            <button @click="sumar">Sumar</button>
+            <p>Resultado: {{ resultado }}</p>
+        </div>
+    </div>
+    
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    nombre: '',
+                    contador: 0,
+                    numero1: 0,
+                    numero2: 0,
+                    resultado: 0,
+                    saludo: 'Bienvenido a la app de Vue'
+                }
+            },
+            methods: {
+                contarClicks() {
+                    this.contador++;
+                },
+                sumar() {
+                    this.resultado = this.numero1 + this.numero2;
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
