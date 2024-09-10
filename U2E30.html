@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FPS</title>
+    <style>
+        body {
+            overflow: hidden;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="600" height="500"></canvas>
+
+    <script>
+        const myCanvas = document.getElementById("myCanvas");
+        const ctx = myCanvas.getContext("2d");
+
+        class Rectangulo {
+
+            constructor(color, w, h, x, y, speed) {
+                this.color = color;
+                this.w = w;
+                this.h = h;
+                this.x = x;
+                this.y = y;
+                this.speed = speed;
+            }
+
+            colision(otro) {
+                if (
+                    this.x < otro.x + otro.w &&
+                    this.x + this.w > otro.x &&
+                    this.y < otro.y + otro.h &&
+                    this.y + this.h > otro.y
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        var player = new Rectangulo("red", 30, 30, 100, 100, 10);
+        var target = new Rectangulo("black", 10, 10, 300, 100, 10);
+
+
+
+        var x = 100;
+        var y = 100;
+        const rectAncho = 30;
+        const rectAltura = 30;
+        var cont = 8;
+        var direccion = '';
+
+        document.addEventListener('keypress', function (e) {
+            switch (e.key) {
+                case 'w':
+                    direccion = 'w';
+                    break;
+                case 's':
+                    direccion = 's';
+                    break;
+                case 'a':
+                    direccion = 'a';
+                    break;
+                case 'd':
+                    direccion = 'd';
+                    break;
+                case 'Enter':
+                    cont += 2;
+                    break;
+            }
+        });
+
+        function update() {
+            switch (direccion) {
+                case 'w':
+                    player.y -= cont;
+                    break;
+                case 's':
+                    player.y += cont;
+                    break;
+                case 'a':
+                    player.x -= cont;
+                    break;
+                case 'd':
+                    player.x += cont;
+                    break;
+            }
+
+            console.log(player.colision(target));
+
+            if (player.colision(target)) {
+                target.x = Math.random() * 500;
+                target.y = Math.random() * 400;
+            }
+        }
+
+        function limitesCanvas() {
+            if (x + rectAncho < 0) {
+                x = myCanvas.width;
+            } else if (x > myCanvas.width) {
+                x = -rectAncho;
+            }
+
+            if (y + rectAltura < 0) {
+                y = myCanvas.height;
+            } else if (y > myCanvas.height) {
+                y = -rectAltura;
+            }
+        }
+
+        function dibujar() {
+            ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+            ctx.font = "30px Arial";
+            ctx.fillStyle = "black";
+            ctx.fillText("Velocidad: " + cont, 200, 40);
+
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+
+            ctx.fillStyle = target.color;
+            ctx.fillRect(target.x, target.y, target.w, target.h);
+
+            update();
+            limitesCanvas();
+            requestAnimationFrame(dibujar);
+        }
+
+        requestAnimationFrame(dibujar);
+    </script>
+</body>
+
+</html>
