@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Lista de Usuarios</h1>
+        
+        <div>
+            <input type="text" v-model="nuevoNombre" placeholder="Nombre del usuario">
+            <input type="text" v-model="nuevoRol" placeholder="Rol del usuario">
+            <button @click="añadirUsuario">Añadir Usuario</button>
+        </div>
+
+        <ul>
+            <li v-for="usuario in usuarios" :key="usuario.nombre">
+                <span>{{ usuario.nombre }}</span>
+                <span>{{ usuario.rol }}</span>
+            </li>
+        </ul>
+    </div>
+    
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    nuevoNombre: '',
+                    nuevoRol: '',
+                    usuarios: [
+                        { nombre: 'Roberto', rol: 'Backend' },
+                        { nombre: 'Luis', rol: 'Frontend' },
+                        { nombre: 'Medina', rol: 'UI' }
+                    ]
+                }
+            },
+            methods: {
+                añadirUsuario() {
+                    if (this.nuevoNombre && this.nuevoRol) {
+                        this.usuarios.push({ nombre: this.nuevoNombre, rol: this.nuevoRol });
+                        this.nuevoNombre = '';
+                        this.nuevoRol = '';
+                    } else {
+                        alert("Por favor, complete ambos campos.");
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
