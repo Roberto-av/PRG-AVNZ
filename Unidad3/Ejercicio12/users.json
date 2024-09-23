@@ -1,0 +1,37 @@
+[
+    {
+        "username": "roberto123",
+        "role": "Back",
+        "email": "roberto@gmail.com",
+        "status": "A",
+        "password": "123"
+    },
+    {
+        "username": "Luis22",
+        "role": "Front",
+        "email": "luis22@gmail.com",
+        "status": "A",
+        "password": "123"
+    },
+    {
+        "username": "tito",
+        "role": "back",
+        "email": "tito@gmail.com",
+        "status": "B",
+        "password": "123"
+    },
+    {
+        "username": "carlos22",
+        "role": "Movil",
+        "email": "carlos22@gmail.com",
+        "status": "A",
+        "password": "123"
+    },
+    {
+        "username": "Medina",
+        "role": "Front",
+        "email": "medina@gmail.com",
+        "status": "B",
+        "password": "123"
+    }
+]

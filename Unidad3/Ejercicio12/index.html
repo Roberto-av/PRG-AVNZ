@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="form-container">
+        <form @submit.prevent="login" v-if="!isLogging">
+          <h2>Inicio de Sesión</h2>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              v-model="username"
+              id="username"
+              placeholder="Ingrese su nombre de usuario"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input
+              type="password"
+              v-model="password"
+              id="password"
+              placeholder="Ingrese su contraseña"
+              required
+            />
+          </div>
+          <button type="submit">
+            <span>INICIAR SESIÓN</span>
+          </button>
+        </form>
+        <h2 v-if="isLogging">Bienvenido {{ username }}</h2>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+        <div v-if="isLogging">
+          <h3>Usuarios Registrados:</h3>
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in users" :key="user.username">
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.status }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button @click="logout" class="logout-button">
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            username: "roberto123",
+            password: "123",
+            errorMessage: "",
+            isLogging: false,
+            users: [],
+          };
+        },
+        methods: {
+          login() {
+            fetch("users.json")
+              .then((response) => response.json())
+              .then((users) => {
+                let found = false;
+
+                users.forEach((user) => {
+                  if (
+                    user.username === this.username &&
+                    user.password === this.password
+                  ) {
+                    found = true;
+                    this.isLogging = true;
+                    sessionStorage.setItem("username", this.username);
+                    this.users = users;
+                  }
+                });
+
+                if (!found) {
+                  this.errorMessage = "Usuario o contraseña incorrectas";
+                  setTimeout(() => {
+                    this.errorMessage = "";
+                  }, 3000);
+                }
+              });
+          },
+          logout() {
+            this.isLogging = false;
+            sessionStorage.clear();
+            this.username = "roberto123";
+            this.password = "123";
+            this.users = [];
+          },
+          async checkSession() {
+            const storedUser = sessionStorage.getItem("username");
+            if (storedUser) {
+              this.isLogging = true;
+              this.username = storedUser;
+
+              try {
+                const response = await fetch("users.json");
+                const users = await response.json();
+                this.users = users;
+              } catch (error) {
+                console.error("Error al cargar usuarios:", error);
+              }
+            }
+          },
+        },
+        mounted() {
+          this.checkSession();
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
